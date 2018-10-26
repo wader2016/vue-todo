@@ -6,9 +6,10 @@
       autofocus="autofocus"
       placeholder="接下去要做什么？"
       @keyup.enter="addTodo"
+      v-model="content"
     >
-     <item :todo = "todo"></item>
-     <tabs :filter="filter"></tabs>
+     <item :todos = "todos"></item>
+     <tabs :todos="todos" :filter="filter"></tabs>
   </section>
  
 </template>
@@ -16,15 +17,13 @@
 <script>
 import Item from './item'
 import Tabs from './tabs'
+let id = 0;
   export default {
     data () {
       return {
-        todo : {
-          id:0,
-          content:"this is todo",
-          completed:false
-        },
-        filter:'all'
+        todos : [],
+        filter:'all',
+        content:'',
       }
     },
     components:{
@@ -32,8 +31,14 @@ import Tabs from './tabs'
       Tabs
     },
     methods:{
-      addTodo() {
-
+      addTodo() {   
+        let item = {
+            id:id++,
+            content:this.content,
+            completed:false
+        }
+        this.todos.unshift(item);
+        this.content = '';
       }
     }
   }

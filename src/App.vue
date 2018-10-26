@@ -3,7 +3,6 @@
     <div id="cover"></div>
     <Header></Header>
     <todo></todo>
-    
     <Footer></Footer>
   </div>
 </template>
@@ -13,7 +12,6 @@
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Todo from './components/todo'
-
 
 export default {
   name: 'App',
