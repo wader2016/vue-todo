@@ -36,20 +36,16 @@
     },
     computed:{
       unFinishedTodo() {
-        this.todos.map(todo=>!todo.completed);
-        return this.todos.length;
+       return this.todos.filter(todo=>!todo.completed).length;
+        
       }
     },
     methods:{
       toggleFilter(state) {
-        // this.todos = this.todos.map(todo=>todo.)
-        if(state == 'all'){
-          return this.todos;
-        }
-        this.todos.filter(todo=> todo.completed = this.filter === state);
+        this.$emit("toggleFilter",state);
       },
       clearCompleted() {
-
+        this.$emit("clearAll");
       }
     }
   }

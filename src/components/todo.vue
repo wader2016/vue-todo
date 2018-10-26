@@ -6,10 +6,20 @@
       autofocus="autofocus"
       placeholder="接下去要做什么？"
       @keyup.enter="addTodo"
-      v-model="content"
     >
-     <item :todos = "todos"></item>
-     <tabs :todos="todos" :filter="filter"></tabs>
+     <item 
+        :todo = "todo"
+        v-for="todo in CalculateTodo"
+        :key="todo.id"  
+        @del = "deleteTodo"
+      >
+     </item>
+     <tabs 
+        :filter="filter"
+        :todos="todos" 
+        @toggleFilter = "toggleFilter"
+        @clearAll = "clearAllCompleted"     
+     ></tabs>
   </section>
  
 </template>
@@ -22,23 +32,40 @@ let id = 0;
     data () {
       return {
         todos : [],
-        filter:'all',
-        content:'',
+        filter:'all'
       }
     },
     components:{
       Item,
       Tabs
     },
+    computed:{
+      CalculateTodo () {
+        if(this.filter === 'all'){
+          return this.todos;
+        }
+        const completed = this.filter === 'completed';
+         return this.todos.filter(todo => todo.completed === completed);
+      }
+    },
     methods:{
-      addTodo() {   
+      addTodo(e) {   
         let item = {
             id:id++,
-            content:this.content,
+            content:e.target.value,
             completed:false
         }
         this.todos.unshift(item);
-        this.content = '';
+        e.target.value = '';
+      },
+      deleteTodo(id) {
+        this.todos.splice(this.todos.findIndex(todo=>todo.id === id), 1);
+      },
+      toggleFilter(state) {
+        this.filter = state;
+      },
+      clearAllCompleted() {
+        this.todos = this.todos.filter(todo => !todo.completed);
       }
     }
   }

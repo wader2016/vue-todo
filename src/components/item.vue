@@ -1,32 +1,28 @@
 <template>
   <div>
-     <div v-for="todo in todos" :key="todo.id">
-      <div :class="['todo-item',todo.completed ? 'completed': '' ]" >
+    <div :class="['todo-item',todo.completed ? 'completed': '' ]" >
          <input 
         type="checkbox"
         class="toggle"
         v-model="todo.completed"
       >
       <label>{{todo.content}}</label>
-      <button class="distory" @click="deleteTodo(todo)"></button>
+      <button class="distory" @click="deleteTodo()"></button>
       </div>
-    </div>
-
   </div>
-  
 </template>
 
 <script>
 export default {
   props: {
-    todos: {
-      type: Array,
+    todo: {
+      type: Object,
       required: true
     }
   },
   methods: {
-    deleteTodo(item) {
-      this.todos.splice(this.todos.findIndex(todo=>todo.id === item.id),1);
+    deleteTodo() {
+      this.$emit('del',this.todo.id);
     }
   }
 };
